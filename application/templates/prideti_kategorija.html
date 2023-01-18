@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Kategorijos pridėjimas/koregavimas</h1>
+<div class="forma">
+    <form class="prisijungimo-forma" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="prisijung-mygt" value="Pridėti">
+    </form>
+</div>
+{% endblock %}

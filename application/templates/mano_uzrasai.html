@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Mano užrašai</h1>
+    <form class="paieskos-forma" action="{% url 'uzrasu_paieska' %}" method="get">
+        <input name="query" class="paieska" type="text" placeholder="Ieškokite užrašo ar kategorijos...">
+        <input class="paieskos-mygt" type="submit" value="Ieškoti">
+    </form>
+    <div class="keisti-trinti">
+        {% if kategorijos_uzrasuose %}
+        <div class="uzrasu-klasiu-blokas">
+            <a class="plius-mygt" href="{% url 'prideti_uzrasa' %}">+U</a>
+        </div>
+        <div class="uzrasu-klasiu-blokas">
+            <a class="plius-mygt" href="{% url 'prideti_kategorija' %}">+K</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="uzrasu-klasiu-blokas">
+        {% if kategorijos_uzrasuose %}
+            {% for kategorija in kategorijos_uzrasuose %}
+            <div class="klases-blokas">
+                <div>
+                    <h2>{{ kategorija.kategorija }}</h2>
+                </div>
+                {% if uzrasai %}
+                    {% for uzrasas in uzrasai %}
+                        {% if kategorija.id == uzrasas.uzraso_kategorija_id %}
+                            <div class="uzraso-blokas">
+                                <h3>{{ uzrasas.pavadinimas }}</h3>
+                                <p>{{ uzrasas.data_sukurimo | date:'Y-m-d | H:i' }}</p>
+                                <p>{{ uzrasas.uzrasas }}</p>
+                                {% if uzrasas.nuotrauka %}
+                                    <img src="{{ uzrasas.nuotrauka.url }}" alt="{{ uzrasas.nuotrauka.url }}">
+                                {% endif %}
+                                <div class="keisti-trinti">
+                                    <a class="atsaukti-mygt" href="{% url 'keisti_uzrasa' uzrasas.id %}">Keisti</a>
+                                    <a class="istrinti-mygt" href="{% url 'istrinti_uzrasa' uzrasas.id %}">Ištrinti</a>
+                                </div>
+
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="uzraso-blokas">
+                        <h3>Dar neturite užrašų...</h3>
+                        <div class="prideti-kat-uzr">
+                            <a href="{% url 'prideti_uzrasa' %}">Pridėti užrašą</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="uzraso-blokas">
+                <h3>Dar neturite kategorijų...</h3>
+                <div class="prideti-kat-uzr">
+                    <a href="{% url 'prideti_kategorija' %}">Pridėti kategoriją</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+
+{% endblock %}

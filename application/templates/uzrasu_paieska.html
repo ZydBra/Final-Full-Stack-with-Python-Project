@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Paieškos pagal "{{query}}" rezultatai:</h1>
+  </br>
+  <div class="uzrasu-klasiu-blokas">
+    {% if uzrasai %}
+      {% for uzrasas in uzrasai %}
+        {% if uzrasas.uzrasas %}
+          <div class="uzraso-blokas">
+            <div class="kategorija">
+              <a href="/uzrasas/{{ uzrasas.id }}">Užrašas: {{ uzrasas.pavadinimas }}</a>
+            </div>
+          </div>
+        {% else %}
+          <div class="uzraso-blokas">
+            <div class="kategorija">
+              <a href="/kategorija/{{ uzrasas.id }}">Kategorija: {{ uzrasas.kategorija }}</a>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <div class="uzraso-blokas">
+        <h1>Nieko nerasta...</h1>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
