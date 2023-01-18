@@ -3,7 +3,7 @@ from authentication.models import User
 
 
 class UzrasoKategorija(models.Model):
-    kategorija = models.CharField(max_length=50, null=False, blank=False)
+    kategorija = models.CharField('Užrašo kategorija', max_length=50, null=False, blank=False)
     kategorijos_autorius = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
