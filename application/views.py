@@ -48,7 +48,8 @@ def prideti_uzrasa(request):
     return render(request, 'prideti_uzrasa.html', context={'form': form,
                                                            'kategorijos_uzrasuose': kategorijos_uzrasuose,
                                                            'uzrasu_skaicius': uzrasu_skaicius,
-                                                           'kategoriju_skaicius': kategoriju_skaicius})
+                                                           'kategoriju_skaicius': kategoriju_skaicius
+                                                           })
 
 
 def rodyti_mano_uzrasus(request):
@@ -59,7 +60,8 @@ def rodyti_mano_uzrasus(request):
     return render(request, 'mano_uzrasai.html', context={'uzrasai': uzrasai,
                                                          'kategorijos_uzrasuose': kategorijos_uzrasuose,
                                                          'uzrasu_skaicius': uzrasu_skaicius,
-                                                         'kategoriju_skaicius': kategoriju_skaicius})
+                                                         'kategoriju_skaicius': kategoriju_skaicius
+                                                         })
 
 
 def rodyti_mano_kategorijas(request):
@@ -70,7 +72,8 @@ def rodyti_mano_kategorijas(request):
     return render(request, 'mano_kategorijos.html', context={'kategorijos': kategorijos,
                                                              'kategorijos_uzrasuose': kategorijos_uzrasuose,
                                                              'uzrasu_skaicius': uzrasu_skaicius,
-                                                             'kategoriju_skaicius': kategoriju_skaicius})
+                                                             'kategoriju_skaicius': kategoriju_skaicius
+                                                             })
 
 
 def kategorija(request, kategorija_id):
@@ -83,29 +86,42 @@ def kategorija(request, kategorija_id):
                                                        'kategorijos_pavadinimas': kategorijos_pavadinimas,
                                                        'kategorijos_uzrasuose': kategorijos_uzrasuose,
                                                        'uzrasu_skaicius': uzrasu_skaicius,
-                                                       'kategoriju_skaicius': kategoriju_skaicius})
+                                                       'kategoriju_skaicius': kategoriju_skaicius
+                                                       })
 
 
 def uzrasas(request, uzrasas_id):
+    uzrasu_skaicius = Uzrasas.objects.filter(uzraso_autorius=request.user.id).all().count()
+    kategoriju_skaicius = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().count()
     kategorijos_uzrasuose = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().values()
     pavienis_uzrasas = Uzrasas.objects.filter(id=uzrasas_id)
     uzraso_pavadinimas = Uzrasas.objects.get(id=uzrasas_id)
     return render(request, 'uzrasas.html', context={'pavienis_uzrasas': pavienis_uzrasas,
                                                     'uzrasas': uzraso_pavadinimas,
-                                                    'kategorijos_uzrasuose': kategorijos_uzrasuose})
+                                                    'kategorijos_uzrasuose': kategorijos_uzrasuose,
+                                                    'uzrasu_skaicius': uzrasu_skaicius,
+                                                    'kategoriju_skaicius': kategoriju_skaicius
+                                                    })
 
 
 def kategoriju_paieska(request):
+    uzrasu_skaicius = Uzrasas.objects.filter(uzraso_autorius=request.user.id).all().count()
+    kategoriju_skaicius = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().count()
     kategorijos_uzrasuose = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().values()
     query = request.GET.get('query')
     kategorijos = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all()
     paieskos_rezultatas = kategorijos.filter(Q(kategorija__icontains=query))
     return render(request, 'ketegoriju_paieska.html', {'kategorijos': paieskos_rezultatas,
                                                        'query': query,
-                                                       'kategorijos_uzrasuose': kategorijos_uzrasuose})
+                                                       'kategorijos_uzrasuose': kategorijos_uzrasuose,
+                                                       'uzrasu_skaicius': uzrasu_skaicius,
+                                                       'kategoriju_skaicius': kategoriju_skaicius
+                                                       })
 
 
 def uzrasu_paieska(request):
+    uzrasu_skaicius = Uzrasas.objects.filter(uzraso_autorius=request.user.id).all().count()
+    kategoriju_skaicius = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().count()
     kategorijos_uzrasuose = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().values()
     query = request.GET.get('query')
     uzrasai = Uzrasas.objects.filter(uzraso_autorius=request.user.id).all()
@@ -115,10 +131,15 @@ def uzrasu_paieska(request):
     paieskos_rezultatas = list(chain(paieska_uzrasuose, paieska_kategorijose))
     return render(request, 'uzrasu_paieska.html', {'uzrasai': paieskos_rezultatas,
                                                    'query': query,
-                                                   'kategorijos_uzrasuose': kategorijos_uzrasuose})
+                                                   'kategorijos_uzrasuose': kategorijos_uzrasuose,
+                                                   'uzrasu_skaicius': uzrasu_skaicius,
+                                                   'kategoriju_skaicius': kategoriju_skaicius
+                                                   })
 
 
 def atnaujinti_mano_kategorija(request, kategorija_id):
+    uzrasu_skaicius = Uzrasas.objects.filter(uzraso_autorius=request.user.id).all().count()
+    kategoriju_skaicius = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().count()
     kategorijos_uzrasuose = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().values()
     kategorijos_modelis = UzrasoKategorija.objects.get(id=kategorija_id)
     if request.method == 'POST':
@@ -132,10 +153,15 @@ def atnaujinti_mano_kategorija(request, kategorija_id):
     else:
         form = KategorijosForma(initial={'kategorija': kategorijos_modelis.kategorija})
     return render(request, 'prideti_kategorija.html', context={'form': form,
-                                                               'kategorijos_uzrasuose': kategorijos_uzrasuose})
+                                                               'kategorijos_uzrasuose': kategorijos_uzrasuose,
+                                                               'uzrasu_skaicius': uzrasu_skaicius,
+                                                               'kategoriju_skaicius': kategoriju_skaicius
+                                                               })
 
 
 def istrinti_kategorija(request, kategorija_id):
+    uzrasu_skaicius = Uzrasas.objects.filter(uzraso_autorius=request.user.id).all().count()
+    kategoriju_skaicius = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().count()
     kategorijos_uzrasuose = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().values()
     kategorijos_modelis = UzrasoKategorija.objects.get(id=kategorija_id)
     if request.method == 'POST':
@@ -143,10 +169,15 @@ def istrinti_kategorija(request, kategorija_id):
         messages.success(request, 'Kategorija ištrinta!')
         return redirect('rodyti_mano_kategorijas')
     return render(request, 'istrinimo_patvirtinimas.html', context={'form': kategorijos_modelis,
-                                                                    'kategorijos_uzrasuose': kategorijos_uzrasuose})
+                                                                    'kategorijos_uzrasuose': kategorijos_uzrasuose,
+                                                                    'uzrasu_skaicius': uzrasu_skaicius,
+                                                                    'kategoriju_skaicius': kategoriju_skaicius
+                                                                    })
 
 
 def keisti_uzrasa(request, uzrasas_id):
+    uzrasu_skaicius = Uzrasas.objects.filter(uzraso_autorius=request.user.id).all().count()
+    kategoriju_skaicius = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().count()
     kategorijos_uzrasuose = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().values()
     keiciamas_uzrasas = Uzrasas.objects.get(id=uzrasas_id)
     if request.method == 'POST':
@@ -166,10 +197,15 @@ def keisti_uzrasa(request, uzrasas_id):
             'nuotrauka': keiciamas_uzrasas.nuotrauka,
         }, kategorijos_autorius=request.user.id)
     return render(request, 'prideti_uzrasa.html', context={'form': form,
-                                                           'kategorijos_uzrasuose': kategorijos_uzrasuose})
+                                                           'kategorijos_uzrasuose': kategorijos_uzrasuose,
+                                                           'uzrasu_skaicius': uzrasu_skaicius,
+                                                           'kategoriju_skaicius': kategoriju_skaicius
+                                                           })
 
 
 def istrinti_uzrasa(request, uzrasas_id):
+    uzrasu_skaicius = Uzrasas.objects.filter(uzraso_autorius=request.user.id).all().count()
+    kategoriju_skaicius = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().count()
     kategorijos_uzrasuose = UzrasoKategorija.objects.filter(kategorijos_autorius=request.user.id).all().values()
     trinamas_uzrasas = Uzrasas.objects.get(id=uzrasas_id)
     if request.method == 'POST':
@@ -177,4 +213,7 @@ def istrinti_uzrasa(request, uzrasas_id):
         messages.success(request, 'Užrašas ištrintas!')
         return redirect('rodyti_mano_uzrasus')
     return render(request, 'istrinimo_patvirtinimas.html', context={'form': trinamas_uzrasas,
-                                                                    'kategorijos_uzrasuose': kategorijos_uzrasuose})
+                                                                    'kategorijos_uzrasuose': kategorijos_uzrasuose,
+                                                                    'uzrasu_skaicius': uzrasu_skaicius,
+                                                                    'kategoriju_skaicius': kategoriju_skaicius
+                                                                    })

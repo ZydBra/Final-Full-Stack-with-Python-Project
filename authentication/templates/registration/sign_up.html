@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block registracija %}
+<form class="prisijungimo-forma" method="post" action="{% url 'sign_up' %}">
+    {% csrf_token %}
+    <input type="text" class="prisijungimas" name="username" placeholder="Prisijungimo vardas..." />
+    <input type="email" class="prisijungimas" name="email" placeholder="Elektroninis paštas..." />
+    <input type="text" class="prisijungimas" name="first_name" placeholder="Įveskite savo vardą..." />
+    <input type="text" class="prisijungimas" name="last_name" placeholder="Įveskite savo pavardę..." />
+    <input type="password" class="prisijungimas" name="password1" placeholder="Slaptažodis..." />
+    <input type="password" class="prisijungimas" name="password2" placeholder="Pakartokite slaptažodį..." />
+    <input type="submit" class="prisijung-mygt" value="Registruotis">
+</form>
+{% endblock %}
