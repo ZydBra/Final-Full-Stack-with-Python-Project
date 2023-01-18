@@ -5,5 +5,5 @@ function perkrautiPuslapi () {
     location.reload();
 }
 
-perkrauti.addEventListener('click', perkrautiPuslapi)
-perkrauti2.addEventListener('click', perkrautiPuslapi)
+perkrauti.addEventListener('click', perkrautiPuslapi);
+perkrauti2.addEventListener('click', perkrautiPuslapi);

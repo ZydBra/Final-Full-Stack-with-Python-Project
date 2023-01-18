@@ -73,7 +73,7 @@ header nav a:hover {
     flex-wrap: wrap;
 }
 
-.paieska, .prisijungimas, #id_nuotrauka {
+.paieska, .prisijungimas, #id_nuotrauka  {
     width: 65%;
     margin: 0;
     padding: 20px;

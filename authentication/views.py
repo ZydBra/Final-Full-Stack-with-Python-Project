@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect, reverse
 from .forms import SignUpForm, UpdateUserForm
 from django.contrib import messages
 from application.models import Uzrasas, UzrasoKategorija
-from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import SetPasswordForm
 
 
 def sign_up(request):
@@ -50,3 +51,17 @@ def user_logout(request):
     logout(request)
     messages.success(request, "Sėkmingai atsijungėte!")
     return redirect("rodyti_mano_uzrasus")
+
+@login_required
+def password_change(request):
+    user = request.user
+    if request.method == 'POST':
+        form = SetPasswordForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Jūsų slaptažodis atnaujintas!")
+            return redirect('login')
+        messages.error(request, 'Neteisingai užpildyta forma!')
+    else:
+        form = SetPasswordForm(user)
+    return render(request, 'password_reset_confirm.html', context={'form': form})
