@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .models import Uzrasas, UzrasoKategorija
 from .forms import KategorijosForma, UzrasoForma
 from django.contrib import messages

@@ -65,6 +65,9 @@ header nav a:hover {
     display: grid;
     justify-items: center;
 }
+.prisijungimo-forma h1 {
+    margin-left: 0px;
+}
 
 .paieskos-forma {
     max-width: 80%;
