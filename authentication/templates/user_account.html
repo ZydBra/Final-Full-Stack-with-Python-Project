@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>"{{ user.username }}" paskyros duomenys</h1>
+<div class="forma">
+    <form class="prisijungimo-forma" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" class="prisijung-mygt" value="Atnaujinti">
+        <p><a href="{% url 'password_change' %}">Atnaijinti slaptažodį?</a></p>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Užrašas "{{ uzrasas.pavadinimas }}"</h1>
+    <div class="uzrasu-klasiu-blokas">
+            {% for uzrasas in pavienis_uzrasas %}
+              <div class="uzraso-blokas">
+                  <p>{{ uzrasas.data_sukurimo | date:'Y-m-d | H:i' }}</p>
+                  <p>{{ uzrasas.uzrasas }}</p>
+                  {% if uzrasas.nuotrauka %}
+                      <img src="{{ uzrasas.nuotrauka.url }}" alt="{{ uzrasas.nuotrauka.url }}">
+                  {% endif %}
+                  <div class="keisti-trinti">
+                      <a class="atsaukti-mygt" href="{% url 'keisti_uzrasa' uzrasas.id %}">Keisti</a>
+                      <a class="istrinti-mygt" href="{% url 'istrinti_uzrasa' uzrasas.id %}">Ištrinti</a>
+                  </div>
+              </div>
+            {% endfor %}
+    </div>
+
+{% endblock %}

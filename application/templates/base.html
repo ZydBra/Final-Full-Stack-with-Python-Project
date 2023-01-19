@@ -1,0 +1,95 @@
+<!doctype html>
+{% load static %}
+<html lang="lt">
+    <head>
+        <meta charset="utf-8">
+        <title>Užrašinė</title>
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<script>
+</script>
+    </head>
+    <body>
+        <header>
+            {% if user.is_authenticated %}
+            <nav>
+                <div class="meniu">
+                    <a href="{% url 'rodyti_mano_uzrasus' %}">Mano užrašai</a>
+                    <a href="{% url 'rodyti_mano_kategorijas' %}">Mano kategorijos</a>
+                    <a href="{% url 'prideti_kategorija' %}">Pridėti kategoriją</a>
+                    {% if kategorijos_uzrasuose %}
+                        <a href="{% url 'prideti_uzrasa' %}">Pridėti užrašą</a>
+                    {% endif %}
+                </div>
+                <div class="meniu">
+                    <a href="{% url 'user_account' %}">"{{ user.username }}" paskyra</a>
+                    <a id="atsijungti" href="{% url 'logout' %}">Atsijungti</a>
+                </div>
+            </nav>
+            {% endif %}
+        </header>
+        <main>
+
+            <div class="messages" id="messages-list">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags %}
+                            <div class="{{ message.tags }}" role="alert">{{ message }}</div>
+                        {% else %}
+                            <div class="messages" role="alert">{{ message }}</div>
+                        {% endif %}
+                        <button class="{{ message.tags }}" id="perk-mygtukas">&times;</button>
+                    {% endfor %}
+                {% endif %}
+                {% if form.errors %}
+                    {{ form.errors }}
+                    <button class="errorlist" id="perk-mygtukas2">&times;</button>
+                {% endif %}
+            </div>
+            <div class="karkasas">
+                {% if user.is_authenticated %}
+                    <div id="statistika">
+                      <p>kategorijų: {{ kategoriju_skaicius }},</p>
+                      <p>užrašų: {{ uzrasu_skaicius }}</p>
+                    </div>
+                    <div>
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                {% else %}
+                    <h1 class="pav-juosta">Mano užrašinė</h1>
+                        {% if next %}
+                            {% if user.is_authenticated %}
+                                <p>Neturite prieigos prie šio puslapio. Prisijunkite.</p>
+                            {% else %}
+                                <p>Prisijunkite, kad matytumėte šį turinį.</p>
+                            {% endif %}
+                        {% endif %}
+                    <div class="centras">
+                        <div class="forma">
+                            <form class="prisijungimo-forma" method="post" action="{% url 'login' %}">
+                                <h1>Prisijungti</h1>
+                                {% csrf_token %}
+                                <input type="text" class="prisijungimas" name="username" placeholder="Įveskite prisijungimo vardą..." />
+                                <input type="password" class="prisijungimas" name="password" placeholder="Įveskite slaptažodį..." />
+                                <input type="submit" class="prisijung-mygt" value="Prisijungti">
+                                <input type="hidden" name="next" value="{{ next }}">
+                                <p><a href="{% url 'password_reset' %}">Pamiršote slaptažodį?</a></p>
+                            </form>
+                        </div>
+                        <div>
+                            {% block registracija %}
+                            {% endblock %}
+                        </div>
+                        <div id="div-centravimas">
+                            <p>Neturite paskyros? <a id="reg-mygtukas" href="{% url 'sign_up' %}">Registruotis.</a></p>
+                        </div>
+                    </div>
+                {% endif %}
+        </main>
+        <footer>
+            <p>@ Žydrūnas. All rights reserved.</p>
+        </footer>
+        <script src="{% static 'js/index.js' %}"></script>
+    </body>
+</html>

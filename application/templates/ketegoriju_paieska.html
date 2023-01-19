@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Paieškos pagal "{{query}}" rezultatai:</h1>
+  </br>
+  <div class="uzrasu-klasiu-blokas">
+    {% if kategorijos %}
+      {% for kategorija in kategorijos %}
+          <div class="uzraso-blokas">
+            <div class="kategorija">
+              <a href="/kategorija/{{ kategorija.id }}">{{ kategorija.kategorija }}</a>
+            </div>
+          </div>
+      {% endfor %}
+    {% else %}
+      <div class="uzraso-blokas">
+        <h1>Nieko nerasta...</h1>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Mano kategorijos</h1>
+<form class="paieskos-forma" action="{% url 'kategoriju_paieska' %}" method="get">
+    <input name="query" class="paieska" type="text" placeholder="Ieškokite kategorijos...">
+    <input class="paieskos-mygt" type="submit" value="Ieškoti">
+</form>
+<div>
+    <div class="uzrasu-klasiu-blokas">
+        <a class="plius-mygt" href="{% url 'prideti_kategorija' %}">+K</a>
+    </div>
+</div>
+<div class="uzrasu-klasiu-blokas">
+    {% if kategorijos %}
+        {% for kategorijos_modelis in kategorijos %}
+            <div class="uzraso-blokas">
+                <div class="kategorija">
+                    <a href="{% url 'kategorija' kategorijos_modelis.id %}">{{ kategorijos_modelis.kategorija }}</a>
+                </div>
+                <div class="keisti-trinti">
+                    <a class="atsaukti-mygt" href="{% url 'atnaujinti_mano_kategorija' kategorijos_modelis.id %}">Keisti</a>
+                    <a class="istrinti-mygt" href="{% url 'istrinti_kategorija' kategorijos_modelis.id %}">Ištrinti</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="uzraso-blokas">
+            <h3>Dar neturite kategorijų...</h3>
+            <div class="prideti-kat-uzr">
+                <a href="{% url 'prideti_kategorija' %}">Pridėti kategoriją</a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

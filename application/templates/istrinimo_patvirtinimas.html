@@ -1,0 +1,14 @@
+{% extends 'mano_uzrasai.html' %}
+{% block content %}
+<div class="prisijungimo-forma">
+  <div class="uzraso-blokas">
+    <h3>Ar tikrai norite ištrinti?</h3>
+    <form class="keisti-trinti" method="post">
+      {% csrf_token %}
+      <input class="istrinti-mygt" type="submit" value="Trinti">
+      <a class="atsaukti-mygt" href="{% url 'rodyti_mano_uzrasus' %}">Atšaukti</a>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
