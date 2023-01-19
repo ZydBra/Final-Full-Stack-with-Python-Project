@@ -68,6 +68,7 @@
                     <div class="centras">
                         <div class="forma">
                             <form class="prisijungimo-forma" method="post" action="{% url 'login' %}">
+                                <h1>Prisijungti</h1>
                                 {% csrf_token %}
                                 <input type="text" class="prisijungimas" name="username" placeholder="Įveskite prisijungimo vardą..." />
                                 <input type="password" class="prisijungimas" name="password" placeholder="Įveskite slaptažodį..." />

@@ -2,6 +2,7 @@
 
 {% block registracija %}
 <form class="prisijungimo-forma" method="post" action="{% url 'sign_up' %}">
+    <h1>Registruotis</h1>
     {% csrf_token %}
     <input type="text" class="prisijungimas" name="username" placeholder="Prisijungimo vardas..." />
     <input type="email" class="prisijungimas" name="email" placeholder="Elektroninis paštas..." />
